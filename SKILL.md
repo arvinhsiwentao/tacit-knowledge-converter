@@ -1,5 +1,5 @@
 ---
-name: tacit-knowledge-rubric
+name: tacit-knowledge-converter
 description: |
   把專業品味、隱性知識與判斷標準，轉化成 AI 可執行的評估 Rubric。
   透過蘇格拉底式訪談，萃取使用者腦中對「什麼叫好」的隱性判準，
@@ -26,14 +26,17 @@ description: |
 
 ## Bundled Resources
 
-本 Skill 包含兩份 reference 檔案，在特定步驟中必須讀取：
+本 Skill 包含三份 reference 檔案，在特定步驟中必須讀取：
 
 | 檔案 | 路徑 | 何時讀取 |
 |------|------|----------|
 | Rubric 輸出格式規範 | `references/rubric-format.md` | **Step 4 開始前**——展開 1-5 分評分描述之前，先讀這份檔案確認輸出結構和 JSON schema |
-| Anthropic 前端 Rubric 範例 | `references/example-frontend-rubric.md` | **Step 4 開始前**——作為顆粒度、語氣、權重設計的參照標準 |
+| 前端設計 Rubric 範例 | `references/example-frontend-rubric.md` | **Step 4 開始前（視覺/設計類領域）**——9 個維度 × 1-5 分完整 few-shot，作為視覺類任務的顆粒度標準 |
+| 寫作 Rubric 範例 | `references/example-writing-rubric.md` | **Step 4 開始前（寫作/內容/文字類領域）**——4 個維度 × 1-5 分完整 few-shot，作為非視覺類任務的顆粒度標準 |
 
 讀取方式：使用 `view` 工具讀取對應路徑的檔案。路徑相對於本 SKILL.md 所在目錄。
+
+**選擇邏輯**：根據使用者在 Step 1 確認的領域，選擇最接近的 example。視覺類（前端、UI、視覺設計、簡報、縮圖）讀 frontend 那份；文字類（寫作、內容、腳本、貼文、Newsletter）讀 writing 那份。如果領域同時牽涉兩者（例如「Landing page 含文案 + 設計」），兩份都讀。如果領域跟兩者都遠（例如「PM PRD 評估」、「面試表現」），仍要讀其中一份來對齊 1-5 分的具體性顆粒度，但結構可以自由。
 
 ---
 
@@ -137,10 +140,20 @@ description: |
 
 對每個確認的維度，展開完整的評分描述。
 
-**開始這一步之前，必須先讀取兩份 reference 檔案：**
+**開始這一步之前，必須先讀取 reference 檔案：**
 
-1. 用 `view` 工具讀取 `references/rubric-format.md`（相對於本 SKILL.md 所在目錄）——確認 Rubric 的 Markdown 和 JSON 輸出結構
-2. 用 `view` 工具讀取 `references/example-frontend-rubric.md`（相對於本 SKILL.md 所在目錄）——對齊顆粒度標準：每個維度的描述應該達到這份範例的具體程度，包括高分/低分的 Exemplar、權重分配邏輯、以及「什麼叫不好」的反面描述
+1. 用 `view` 工具讀取 `references/rubric-format.md`（必讀）——確認 Rubric 的 Markdown 和 JSON 輸出結構
+2. 用 `view` 工具讀取**對應領域的 example**（依 Step 1 確認的領域選擇）：
+   - 視覺/設計類 → `references/example-frontend-rubric.md`
+   - 寫作/內容類 → `references/example-writing-rubric.md`
+   - 跨領域或其他 → 兩份都讀，挑最接近的當主要參照
+
+對齊顆粒度標準：每個維度的 1-5 分描述應該達到參考範例的具體程度，包括：
+- 每一分都是**可掃描的可觀察行為**，不是抽象品質形容詞
+- 1 分要點名具體的 anti-pattern（如「用了 Inter、Roboto」、「em-dash 連短句」），而非「品質很差」
+- 5 分要描述能辨識的卓越特徵，而非「品質卓越」
+- 同維度的 1 分到 5 分要用一致詞彙軸遞增（如「無 → 少 → 部分 → 多數 → 全部」）
+- 必須有「典型 5 分樣態」與「典型 1-2 分樣態」兩段 exemplar
 
 每個維度需要：
 - 1 分到 5 分各自的具體描述
